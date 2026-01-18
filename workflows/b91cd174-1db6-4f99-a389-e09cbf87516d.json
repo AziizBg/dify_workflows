@@ -1,0 +1,285 @@
+{
+  "graph": {
+    "nodes": [
+      {
+        "id": "1766226414887",
+        "type": "custom",
+        "data": {
+          "code": "def main(prompt: str, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, \nmodel_id: str = \"anthropic.claude-3-sonnet-20240229-v1:0\" ):\n    import boto3\n    import json\n    \n    AWS_REGION = \"us-east-1\"\n    \n    # Configure AWS credentials\n    boto3.setup_default_session(\n        aws_access_key_id=AWS_ACCESS_KEY_ID,\n        aws_secret_access_key=AWS_SECRET_ACCESS_KEY,\n        region_name=AWS_REGION\n    )\n    \n    # Initialize Bedrock runtime client\n    bedrock_runtime = boto3.client(\n        service_name='bedrock-runtime',\n        region_name=AWS_REGION\n    )\n    \n    # Prepare the request body for Claude models\n    body = json.dumps({\n        \"anthropic_version\": \"bedrock-2023-05-31\",\n        \"max_tokens\": 1024,\n        \"messages\": [{\"role\": \"user\", \"content\": prompt}]\n    })\n    \n    try:\n        response = bedrock_runtime.invoke_model(\n            modelId=model_id,\n            body=body\n        )\n        \n        response_body = json.loads(response['body'].read())\n        text = response_body.get('content', [{}])[0].get('text', '')\n        \n        return {\n            \"result\": text,\n        }\n    except Exception as e:\n        return {\n            \"result\": f\"Error: {str(e)}\"\n        }",
+          "code_language": "python3",
+          "variables": [
+            {
+              "variable": "prompt",
+              "value_selector": [
+                "1766226681864",
+                "prompt"
+              ],
+              "value_type": "string"
+            },
+            {
+              "variable": "model_id",
+              "value_selector": [
+                "1766226681864",
+                "model_id"
+              ],
+              "value_type": "string"
+            },
+            {
+              "variable": "AWS_ACCESS_KEY_ID",
+              "value_selector": [
+                "env",
+                "AWS_ACCESS_KEY_ID"
+              ],
+              "value_type": "string"
+            },
+            {
+              "variable": "AWS_SECRET_ACCESS_KEY",
+              "value_selector": [
+                "env",
+                "AWS_SECRET_ACCESS_KEY"
+              ],
+              "value_type": "secret"
+            }
+          ],
+          "outputs": {
+            "result": {
+              "type": "string",
+              "children": null
+            }
+          },
+          "type": "code",
+          "title": "BEDROCK QUERY",
+          "selected": true,
+          "dependencies": [
+            {
+              "name": "boto3",
+              "version": "latest"
+            }
+          ]
+        },
+        "position": {
+          "x": 425,
+          "y": 262
+        },
+        "targetPosition": "left",
+        "sourcePosition": "right",
+        "positionAbsolute": {
+          "x": 425,
+          "y": 262
+        },
+        "width": 242,
+        "height": 52,
+        "selected": true
+      },
+      {
+        "id": "1766226681864",
+        "type": "custom",
+        "data": {
+          "variables": [
+            {
+              "variable": "prompt",
+              "label": "prompt",
+              "type": "text-input",
+              "max_length": 48,
+              "required": true,
+              "options": [],
+              "placeholder": "",
+              "default": "",
+              "hint": ""
+            },
+            {
+              "variable": "model_id",
+              "label": "model_id",
+              "type": "text-input",
+              "max_length": 48,
+              "required": false,
+              "options": [],
+              "placeholder": "",
+              "default": "anthropic.claude-3-sonnet-20240229-v1:0",
+              "hint": ""
+            }
+          ],
+          "type": "start",
+          "title": "User Input",
+          "selected": false
+        },
+        "position": {
+          "x": 57,
+          "y": 241
+        },
+        "targetPosition": "left",
+        "sourcePosition": "right",
+        "positionAbsolute": {
+          "x": 57,
+          "y": 241
+        },
+        "width": 242,
+        "height": 135,
+        "selected": false
+      },
+      {
+        "id": "1766229456834",
+        "type": "custom",
+        "data": {
+          "outputs": [
+            {
+              "variable": "result",
+              "value_selector": [
+                "1766226414887",
+                "result"
+              ],
+              "value_type": "string"
+            }
+          ],
+          "type": "end",
+          "title": "Output",
+          "selected": false
+        },
+        "position": {
+          "x": 727,
+          "y": 262
+        },
+        "targetPosition": "left",
+        "sourcePosition": "right",
+        "positionAbsolute": {
+          "x": 727,
+          "y": 262
+        },
+        "width": 242,
+        "height": 88
+      }
+    ],
+    "edges": [
+      {
+        "id": "1766226681864-source-1766226414887-target",
+        "type": "custom",
+        "source": "1766226681864",
+        "target": "1766226414887",
+        "sourceHandle": "source",
+        "targetHandle": "target",
+        "data": {
+          "sourceType": "start",
+          "targetType": "code",
+          "isInLoop": false
+        },
+        "zIndex": 0
+      },
+      {
+        "id": "1766226414887-source-1766229456834-target",
+        "type": "custom",
+        "source": "1766226414887",
+        "sourceHandle": "source",
+        "target": "1766229456834",
+        "targetHandle": "target",
+        "data": {
+          "sourceType": "code",
+          "targetType": "end",
+          "isInIteration": false,
+          "isInLoop": false
+        },
+        "zIndex": 0
+      }
+    ],
+    "viewport": {
+      "x": 201.4750179589289,
+      "y": 228.93320223517958,
+      "zoom": 0.5525058750484328
+    }
+  },
+  "features": {
+    "opening_statement": "",
+    "suggested_questions": [],
+    "suggested_questions_after_answer": {
+      "enabled": false
+    },
+    "text_to_speech": {
+      "enabled": false,
+      "voice": "",
+      "language": ""
+    },
+    "speech_to_text": {
+      "enabled": false
+    },
+    "retriever_resource": {
+      "enabled": true
+    },
+    "sensitive_word_avoidance": {
+      "enabled": false
+    },
+    "file_upload": {
+      "image": {
+        "enabled": false,
+        "number_limits": 3,
+        "transfer_methods": [
+          "local_file",
+          "remote_url"
+        ]
+      },
+      "enabled": false,
+      "allowed_file_types": [
+        "image"
+      ],
+      "allowed_file_extensions": [
+        ".JPG",
+        ".JPEG",
+        ".PNG",
+        ".GIF",
+        ".WEBP",
+        ".SVG"
+      ],
+      "allowed_file_upload_methods": [
+        "local_file",
+        "remote_url"
+      ],
+      "number_limits": 3,
+      "fileUploadConfig": {
+        "file_size_limit": 15,
+        "batch_count_limit": 5,
+        "file_upload_limit": 10,
+        "image_file_size_limit": 10,
+        "video_file_size_limit": 100,
+        "audio_file_size_limit": 50,
+        "workflow_file_upload_limit": 10,
+        "image_file_batch_limit": 10,
+        "single_chunk_attachment_limit": 10,
+        "attachment_image_file_size_limit": 2
+      }
+    }
+  },
+  "environment_variables": [
+    {
+      "value_type": "secret",
+      "value": "",
+      "id": "450cd1ee-b730-4f25-9296-456555a3a7c9",
+      "name": "AWS_ACCESS_KEY_ID",
+      "description": "",
+      "selector": [
+        "env",
+        "AWS_ACCESS_KEY_ID"
+      ]
+    },
+    {
+      "value_type": "secret",
+      "value": "",
+      "id": "280d79ca-cc48-404d-b1ab-0cd4cbabece3",
+      "name": "AWS_SECRET_ACCESS_KEY",
+      "description": "",
+      "selector": [
+        "env",
+        "AWS_SECRET_ACCESS_KEY"
+      ]
+    }
+  ],
+  "conversation_variables": [],
+  "rag_pipeline_variables": [],
+  "metadata": {
+    "workflow_id": "c2c3db11-2a1c-4ddd-9a12-d2fbc289c14c",
+    "app_id": "b91cd174-1db6-4f99-a389-e09cbf87516d",
+    "version": "draft",
+    "type": "workflow",
+    "created_at": "2025-12-20T10:26:45",
+    "updated_at": "2026-01-18T10:44:41.543445",
+    "created_by": "7b259bf4-5904-4ad7-ac58-ef1610460320",
+    "updated_by": "7b259bf4-5904-4ad7-ac58-ef1610460320"
+  }
+}
