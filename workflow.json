@@ -9,7 +9,7 @@
           "variables": []
         },
         "height": 73,
-        "id": "test-start-node",
+        "id": "1766226681864",
         "position": {
           "x": 57,
           "y": 241
@@ -28,10 +28,10 @@
         "data": {
           "outputs": [
             {
-              "variable": "result",
+              "variable": "body",
               "value_selector": [
-                "test-llm-node",
-                "text"
+                "1766416361205",
+                "body"
               ],
               "value_type": "string"
             }
@@ -41,7 +41,7 @@
           "type": "end"
         },
         "height": 88,
-        "id": "test-end-node",
+        "id": "1766229456834",
         "position": {
           "x": 727,
           "y": 262
@@ -57,68 +57,80 @@
         "selected": false
       },
       {
-        "id": "test-llm-node",
+        "id": "1766416361205",
         "type": "custom",
         "data": {
-          "type": "llm",
-          "title": "LLM",
-          "model": {
-            "provider": "openai",
-            "name": "gpt-4",
-            "mode": "chat"
-          },
-          "prompt_template": [
-            {
-              "role": "system",
-              "text": "You are a helpful assistant."
-            },
-            {
-              "role": "user",
-              "text": "{{#sys.query#}}"
+          "variables": [],
+          "method": "get",
+          "url": "https://httpbin.org/get",
+          "authorization": {
+            "type": "api-key",
+            "config": {
+              "type": "basic",
+              "api_key": ""
             }
-          ],
-          "selected": false
+          },
+          "headers": "",
+          "params": "",
+          "body": {
+            "type": "none",
+            "data": []
+          },
+          "ssl_verify": true,
+          "timeout": {
+            "max_connect_timeout": 0,
+            "max_read_timeout": 0,
+            "max_write_timeout": 0
+          },
+          "retry_config": {
+            "retry_enabled": true,
+            "max_retries": 3,
+            "retry_interval": 100
+          },
+          "type": "http-request",
+          "title": "HTTP Request",
+          "selected": true
         },
         "position": {
-          "x": 360,
+          "x": 360.16957326193767,
           "y": 262
         },
         "targetPosition": "left",
         "sourcePosition": "right",
         "positionAbsolute": {
-          "x": 360,
+          "x": 360.16957326193767,
           "y": 262
         },
         "width": 242,
         "height": 121,
-        "selected": false
+        "selected": true
       }
     ],
     "edges": [
       {
-        "id": "test-start-source-test-llm-target",
+        "id": "1766226681864-source-1766416361205-target",
         "type": "custom",
-        "source": "test-start-node",
+        "source": "1766226681864",
         "sourceHandle": "source",
-        "target": "test-llm-node",
+        "target": "1766416361205",
         "targetHandle": "target",
         "data": {
           "sourceType": "start",
-          "targetType": "llm",
+          "targetType": "http-request",
           "isInIteration": false,
           "isInLoop": false
         },
         "zIndex": 0
       },
       {
-        "id": "test-llm-source-test-end-target",
+        "id": "1766416361205-source-1766229456834-target",
         "type": "custom",
-        "source": "test-llm-node",
+        "source": "1766416361205",
+        "target": "1766229456834",
         "sourceHandle": "source",
-        "target": "test-end-node",
         "targetHandle": "target",
         "data": {
-          "sourceType": "llm",
+          "sourceType": "http-request",
           "targetType": "end",
           "isInLoop": false
         },
@@ -126,9 +138,9 @@
       }
     ],
     "viewport": {
-      "x": 0,
-      "y": 0,
-      "zoom": 1
+      "x": 72.0083408780543,
+      "y": 110.24298846089397,
+      "zoom": 0.8502843425528804
     }
   },
   "features": {
@@ -146,31 +158,62 @@
       "enabled": false
     },
     "retriever_resource": {
-      "enabled": false
+      "enabled": true
     },
     "sensitive_word_avoidance": {
       "enabled": false
     },
     "file_upload": {
+      "image": {
+        "enabled": false,
+        "number_limits": 3,
+        "transfer_methods": [
+          "local_file",
+          "remote_url"
+        ]
+      },
       "enabled": false,
+      "allowed_file_types": [
+        "image"
+      ],
+      "allowed_file_extensions": [
+        ".JPG",
+        ".JPEG",
+        ".PNG",
+        ".GIF",
+        ".WEBP",
+        ".SVG"
+      ],
+      "allowed_file_upload_methods": [
+        "local_file",
+        "remote_url"
+      ],
       "number_limits": 3,
-      "allowed_file_types": ["image"],
-      "allowed_file_extensions": [".JPG", ".JPEG", ".PNG", ".GIF", ".WEBP", ".SVG"],
-      "allowed_file_upload_methods": ["local_file", "remote_url"]
+      "fileUploadConfig": {
+        "file_size_limit": 15,
+        "batch_count_limit": 5,
+        "file_upload_limit": 10,
+        "image_file_size_limit": 10,
+        "video_file_size_limit": 100,
+        "audio_file_size_limit": 50,
+        "workflow_file_upload_limit": 10,
+        "image_file_batch_limit": 10,
+        "single_chunk_attachment_limit": 10,
+        "attachment_image_file_size_limit": 2
+      }
     }
   },
   "environment_variables": [],
   "conversation_variables": [],
   "rag_pipeline_variables": [],
   "metadata": {
-    "workflow_id": "test-workflow-push-pull",
-    "app_id": "test-app-id",
+    "workflow_id": "eecaff46-2a1b-48e9-9cb4-ca1d6cd017ec",
+    "app_id": "b493e067-e17e-4ff8-9626-0dbe9a5898fb",
     "version": "draft",
     "type": "workflow",
-    "created_at": "2026-01-18T11:30:00",
-    "updated_at": "2026-01-18T11:30:00",
-    "created_by": "test-user",
-    "updated_by": "test-user"
+    "created_at": "2025-12-22T15:12:28",
+    "updated_at": "2026-01-18T10:30:27.770426",
+    "created_by": "7b259bf4-5904-4ad7-ac58-ef1610460320",
+    "updated_by": "7b259bf4-5904-4ad7-ac58-ef1610460320"
   }
 }
-
